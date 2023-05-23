@@ -1,0 +1,117 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/dist/css/adminlte.min.css">
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.css" />
+    <link rel="stylesheet" href="~/AdminLTE-3.2.0/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" />
+    <script src="~/js/Account.js"></script>
+</head>
+<body class="hold-transition login-page">
+
+    <div class="login-box">
+
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="~/AdminLTE-3.2.0/index2.html" class="h1"><b>Admin</b>LTE</a>
+            </div>
+            @RenderBody();
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/AdminLTE-3.2.0/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/AdminLTE-3.2.0/dist/js/adminlte.min.js"></script>
+    <script src="~/AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="~/AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="~/AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.js"></script>
+    <script src="~/AdminLTE-3.2.0/plugins/sweetalert2/sweetalert2.min.js"></script>
+</body>
+<script>
+    //$("#TB_Account").on("submit", async function (event) {
+    //    event.preventDefault();
+    //    const url = "https://localhost:8001/api/Accounts/Login2";
+    //    const data = {
+    //        email: $('#UserName').val(),
+    //        password: $('#Password').val()
+    //    };
+    //    const option = {
+    //        method: "POST",
+    //        headers: {
+    //            "Content-Type": "application/json"
+    //        },
+    //        body: JSON.stringify(data)
+
+    //    };
+    //    try {
+    //        const response = await fetch(url, option);
+    //        const json = await response.json();
+    //        if (response.ok) {
+    //            debugger;
+    //            $.post("/Login/Login", { email: data.email })
+    //                .done(function () {
+    //                    Swal.fire({
+    //                        icon: 'success',
+    //                        title: 'Greats...',
+    //                        text: 'You are sign in!',
+    //                        didClose: () => {
+    //                            //$('#TB_Department').DataTable().destroy();
+    //                            //sessionStorage.setItem("Account", JSON.stringify(response));
+    //                            //const sessionId = generateSessionId(); // You can create your own function to generate a unique session ID
+    //                            //localStorage.setItem('sessionId', sessionId);
+    //                            //window.location.href = "/departments/index"; // reload the page
+    //                            location.replace("/departments/index");
+    //                        }
+
+    //                    })
+
+    //                })
+    //        } else {
+    //            //throw new Error(json.message);
+    //            Swal.fire({
+    //                icon: 'error',
+    //                title: 'Oops...',
+    //                text: 'Something went wrong',
+    //                //didClose: () => {
+    //                //    //$('#TB_Department').DataTable().destroy();
+    //                //    table.ajax.reload(); // reload the page
+    //                //}
+    //            })
+    //        }
+    //    } catch (error) {
+    //        //console.error(error);
+    //        //throw error;
+    //        Swal.fire({
+    //            icon: 'error',
+    //            title: 'Oops...',
+    //            text: 'Something went wrong',
+    //            //didClose: () => {
+    //            //    //$('#TB_Department').DataTable().destroy();
+    //            //    table.ajax.reload(); // reload the page
+    //            //}
+    //        })
+    //    }
+    //}
+    //)
+</script>
+@RenderSection("script", required : false)
+</html>
