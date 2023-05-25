@@ -40,7 +40,7 @@
                         data_count.push({
                             department: department,
                             count: count,
-                            maleCount: maleCount, 
+                            maleCount: maleCount,
                             femaleCount: femaleCount
                         });
                     });
