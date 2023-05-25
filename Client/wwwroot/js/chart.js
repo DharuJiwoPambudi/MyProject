@@ -49,19 +49,19 @@
                         console.log('Department:', item.department, 'Total Employee:', item.count, 'Male Employee:', item.maleCount, 'Female Employee:', item.femaleCount);
                     });
 
-                    var colors = Chart.getDatasetColors();
+                    //var colors = Chart.getDatasetColors();
                     var areaChartData = {
                         labels: name,
                         datasets: [
                             {
                                 label: 'Persebaran karyawan',
-                                backgroundColor: colors[0].backgroundColor,
-                                borderColor: colors[0].borderColor,
+                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                borderColor: 'rgba(60,141,188,0.8)',
                                 pointRadius: false,
-                                pointColor: colors[0].pointColor,
-                                pointStrokeColor: colors[0].pointStrokeColor,
-                                pointHighlightFill: colors[0].pointHighlightFill,
-                                pointHighlightStroke: colors[0].pointHighlightStroke,
+                                pointColor: '#3b8bba',
+                                pointStrokeColor: 'rgba(60,141,188,1)',
+                                pointHighlightFill: '#fff',
+                                pointHighlightStroke: 'rgba(60,141,188,1)',
                                 data: data_count.map(function (item) {
                                     return item.count;
                                 })
