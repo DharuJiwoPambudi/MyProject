@@ -102,12 +102,12 @@ namespace Client.Controllers
             return RedirectToAction("Index", "Departments");
         }
 
-        public ActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-            HttpContext.Session.Remove("userToken");
-            return RedirectToAction("Login");
-        }
+        //public ActionResult Logout()
+        //{
+        //    //HttpContext.Session.Clear();
+        //    //HttpContext.Session.Remove("userToken");
+        //    return RedirectToAction("Login");
+        //}
 
         [Authentication]
         public IActionResult Index()

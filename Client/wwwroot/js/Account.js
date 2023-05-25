@@ -5,13 +5,16 @@
 //    return !!sessionId; // Return true if session ID exists, false otherwise
 //}
 function Logout() {
+    
     // Clear the session variable
     //sessionStorage.removeItem("user");
     // Redirect to login page
-    //localStorage.removeItem('sessionId');
+    localStorage.removeItem('sessionId');
     //sessionStorage.removeItem('userToken')
-    localStorage.removeItem('userToken')
+    sessionStorage.removeItem('userToken');
     window.location.href = "/login/index";
+    console.log("Token: " + sessionStorage.getItem('userToken'))
+    debugger;
 }
 
 async function login() {
