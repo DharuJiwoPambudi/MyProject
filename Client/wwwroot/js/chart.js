@@ -1,5 +1,101 @@
-﻿$(document).ready(function () {
+﻿function checkSessionAndTokenExpiration() {
+    const userToken = sessionStorage.getItem('userToken');
+    if (!userToken) {
+        // Session tidak ada, arahkan ke halaman login
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please login first...!',
+            showConfirmButton: false,
+            timer: 2000,
+            didClose: () => {
+                window.location.href = "/login/index";
+            }
+        })
+        return;
+    }
 
+    // Memeriksa apakah token telah kadaluwarsa
+    const decodedToken = decodeToken(userToken);
+    const expirationTime = decodedToken.exp;
+    const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+    console.log('Expired time: ' + expirationTime + '\nCurrent time: ' + currentTime)
+    debugger;
+    if (currentTime > expirationTime) {
+        // Token telah kadaluwarsa, arahkan ke halaman login
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Your session is expired...! :p',
+            showConfirmButton: false,
+            timer: 2000,
+            didClose: () => {
+                sessionStorage.removeItem('userToken')
+                window.location.href = "/login/index";
+            }
+        })
+        return;
+    }
+
+    // Token masih valid, lanjutkan ke halaman berikutnya
+}
+
+// Fungsi untuk memeriksa sesi dan kadaluwarsa token
+//async function checkSessionAndTokenExpiration() {
+//    const userToken = sessionStorage.getItem('userToken');
+//    if (!userToken) {
+//        // Session tidak ada, arahkan ke halaman login
+//        Swal.fire({
+//            icon: 'error',
+//            title: 'Oops...',
+//            text: 'Please login first...!',
+//            showConfirmButton: false,
+//            timer: 2000,
+//            didClose: () => {
+//                window.location.href = "/login/index";
+//            }
+//        });
+//        document.body.style.display = 'none'; // Sembunyikan body setelah menampilkan alert
+//        return;
+//    }
+
+//    // Memeriksa apakah token telah kadaluwarsa
+//    const decodedToken = decodeToken(userToken);
+//    const expirationTime = decodedToken.exp;
+//    const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+
+//    if (currentTime > expirationTime) {
+//        sessionStorage.removeItem('userToken');
+//        // Token telah kadaluwarsa, arahkan ke halaman login
+//        Swal.fire({
+//            icon: 'error',
+//            title: 'Oops...',
+//            text: 'Your session is expired...! :p',
+//            showConfirmButton: false,
+//            timer: 2000,
+//            didClose: () => {
+//                window.location.href = "/login/index";
+//            }
+//        });
+//        document.body.style.display = 'none'; // Sembunyikan body setelah menampilkan alert
+//        return;
+//    }
+//    document.body.style.display = 'block'; // Tampilkan body jika token dan sesi valid
+//}
+
+// Fungsi untuk mengurai token
+function decodeToken(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+$(document).ready(function () {
+     checkSessionAndTokenExpiration();
 
     $(function () {
         /* ChartJS
@@ -19,7 +115,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-                GetValueCount(function (countByDepartment, countByGender) {
+                GetValueCount(function (countByDepartment, countByGender, totalValueLaki, totalValuePerempuan) {
                     var data_count = [];
 
 
@@ -54,9 +150,9 @@
                         labels: name,
                         datasets: [
                             {
-                                label: 'Persebaran karyawan',
-                                backgroundColor: 'rgba(60,141,188,0.9)',
-                                borderColor: 'rgba(60,141,188,0.8)',
+                                label: 'Karyawan',
+                                backgroundColor: '#01bfff',
+                                borderColor: 'rgba(60,141,188,3)',
                                 pointRadius: false,
                                 pointColor: '#3b8bba',
                                 pointStrokeColor: 'rgba(60,141,188,1)',
@@ -68,7 +164,7 @@
                             },
                             {
                                 label: 'Laki-laki',
-                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                backgroundColor: '#00bfff',
                                 borderColor: 'rgba(60,141,188,0.8)',
                                 pointRadius: false,
                                 pointColor: '#00bfff',
@@ -81,7 +177,7 @@
                             },
                             {
                                 label: 'Perempuan',
-                                backgroundColor: 'rgba(60,141,188,0.9)',
+                                backgroundColor: '#ff69b4',
                                 borderColor: 'rgba(60,141,188,0.8)',
                                 pointRadius: false,
                                 pointColor: '#ff69b4',
@@ -96,14 +192,24 @@
                     };
 
                     var donutData = {
-                        labels: ['Laki-laki', 'Perempuan'],
+                        labels: name,
                         datasets: [
                             {
                                 data: data_count.map(function (item) {
                                     return item.count;
                                 }),
                                 //data: [100, 20, 30],
-                                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+                                backgroundColor: generateColorPalette(data_count.length),
+                            }
+                        ]
+                    }
+                    var donutData1 = {
+                        labels: ['Laki-laki', 'Perempuan'],
+                        datasets: [
+                            {
+                                data: [totalValueLaki, totalValuePerempuan],
+                                //data: [100, 20, 30],
+                                backgroundColor: ['#00bfff', '#ff69b4'],
                             }
                         ]
                     }
@@ -115,6 +221,7 @@
                     var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
                     var pieChartCanvas2 = $('#pieChart2').get(0).getContext('2d')
                     var pieData = donutData;
+                    var pieData1 = donutData1;
                     var pieOptions = {
                         maintainAspectRatio: false,
                         responsive: true,
@@ -128,7 +235,7 @@
                     });
                     new Chart(pieChartCanvas2, {
                         type: 'pie',
-                        data: pieData,
+                        data: pieData1,
                         options: pieOptions
                     });
                     //-------------
@@ -173,6 +280,7 @@
                                 }
                             }]
                         }
+
                     };
                     new Chart(barChartCanvas, {
                         type: 'bar',
@@ -196,6 +304,8 @@
 function GetValueCount(callback) {
     var countByDepartment = {};
     var countByGender = {}; // Menyimpan data jumlah karyawan per departemen berdasarkan jenis kelamin
+    var totalValueLaki = 0;
+    var totalValuePerempuan = 0;
 
     $.ajax({
         url: "https://localhost:8001/api/Employees",
@@ -229,6 +339,25 @@ function GetValueCount(callback) {
                 } else {
                     countByGender[departmentId][gender]++;
                 }
+
+                //Menghitung jumlah karyawan laki-laki
+
+
+                if (employee.gender === 0) {
+                    // Mengakses nilai karyawan laki-laki, misalnya menggunakan property 'value'
+                    totalValueLaki += 1;
+                }
+
+
+                //Menghitung jumlah karyawan perempuan
+
+
+
+                if (employee.gender === 1) {
+                    // Mengakses nilai karyawan laki-laki, misalnya menggunakan property 'value'
+                    totalValuePerempuan += 1;
+                }
+
             });
 
             // Mencetak jumlah karyawan per departemen
@@ -248,9 +377,10 @@ function GetValueCount(callback) {
                     }
                 }
             }
-
+            console.log('Total Value of Male Employees:', totalValueLaki);
+            console.log('Total Value of Male Employees:', totalValuePerempuan);
             // Mengembalikan data countByDepartment dan countByGender melalui callback
-            callback(countByDepartment, countByGender);
+            callback(countByDepartment, countByGender, totalValueLaki, totalValuePerempuan);
         },
         error: function (error) {
             console.log('Error:', error);
@@ -258,3 +388,15 @@ function GetValueCount(callback) {
     });
 }
 
+function generateColorPalette(numColors) {
+    var colorPalette = [];
+    var hueStep = 360 / numColors;
+
+    for (var i = 0; i < numColors; i++) {
+        var hue = i * hueStep;
+        var color = 'hsl(' + hue + ', 100%, 50%)';
+        colorPalette.push(color);
+    }
+
+    return colorPalette;
+}

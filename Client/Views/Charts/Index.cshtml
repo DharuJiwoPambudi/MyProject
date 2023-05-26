@@ -8,6 +8,44 @@
     }
 </style>*@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+@*<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+<script>
+    // Fungsi untuk memeriksa sesi dan menampilkan konten utama setelahnya
+    function checkSessionAndShowContent() {
+        const userToken = sessionStorage.getItem('userToken');
+        if (!userToken) {
+            // Session tidak ada, arahkan ke halaman login
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please login first...!',
+                showConfirmButton: false,
+                timer: 2000,
+                didClose: () => {
+                    window.location.href = "/login/index";
+                }
+            });
+            return;
+        }
+
+        // Konten utama
+        document.getElementById('main-content').classList.remove('hidden');
+    }
+
+    // Panggil fungsi checkSessionAndShowContent setelah halaman dimuat
+    window.addEventListener('DOMContentLoaded', checkSessionAndShowContent);
+</script>
+*@
+
+<!-- Konten utama -->
+<div id="main-content" class="hidden">
+    <!-- Isi konten utama di sini -->
+</div>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -18,7 +56,7 @@
             </div>
             <div class="col-sm-4">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="~/departments/index">Home</a></li>
                     <li class="breadcrumb-item active">DataTables</li>
                 </ol>
             </div>
@@ -87,15 +125,15 @@
         </div><!-- /.container-fluid -->
     </section>
     <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-8">
-                <h1>Grafik Persebaran Jenis Kelamin Karyawan</h1>
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-8">
+                    <h1>Grafik Persebaran Jenis Kelamin Karyawan</h1>
+                </div>
+
             </div>
-            
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
+        </div><!-- /.container-fluid -->
+    </section>
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -168,10 +206,10 @@
     <!-- ./wrapper -->
 </section>
 
-
+@*
 @section script{
-   
-   @* <script>
+
+    <script>
         $(document).ready(function () {
             // Periksa apakah session ada saat halaman dimuat
             checkSession();
@@ -181,13 +219,27 @@
                 const userToken = sessionStorage.getItem('userToken');
                 if (!userToken) {
                     // Session tidak ada, arahkan ke halaman login
-                    window.location.href = "/login/index";
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please login first...!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                        didClose: () => {
+                            window.location.href = "/login/index";
+                        }
+                    })
+                    //window.location.href = "/login/index";
                 } else {
                     // Tampilkan kembali konten halaman setelah pengecekan session
                     document.body.style.display = 'block';
                 }
             }
         });
-    </script>*@
+    </script>
+<script src="~/js/chart.js"></script>
+    }
+*@
+@section script{
     <script src="~/js/chart.js"></script>
     }

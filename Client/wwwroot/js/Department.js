@@ -163,9 +163,117 @@ var table = $('#TB_Department').DataTable({
     }
 });
 
-$(document).ready(function () {
-    table
+function checkSessionAndTokenExpiration() {
+    const userToken = sessionStorage.getItem('userToken');
+    if (!userToken) {
+        // Session tidak ada, arahkan ke halaman login
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please login first...!',
+            showConfirmButton: false,
+            timer: 2000,
+            didClose: () => {
+                window.location.href = "/login/index";
+            }
+        })
+        //document.body.style.display = 'none'; // Sembunyikan body setelah menampilkan alert
+        return;
+    }
 
+    // Memeriksa apakah token telah kadaluwarsa
+    const decodedToken = decodeToken(userToken);
+    const expirationTime = decodedToken.exp;
+    const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+    console.log('Expired time: ' + expirationTime + '\nCurrent time: ' + currentTime)
+    debugger;
+    if (currentTime > expirationTime) {
+        sessionStorage.removeItem('userToken');
+        // Token telah kadaluwarsa, arahkan ke halaman login
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Your session is expired...! :p',
+            showConfirmButton: false,
+            timer: 2000,
+            didClose: () => {
+                sessionStorage.removeItem('userToken')
+                window.location.href = "/login/index";
+            }
+        })
+        //document.body.style.display = 'none'; // Sembunyikan body setelah menampilkan alert
+        return;
+    }
+    //document.body.style.display = 'block'; // Tampilkan body jika token dan sesi valid
+    // Token masih valid, lanjutkan ke halaman berikutnya
+}
+
+//function checkSessionAndTokenExpiration() {
+//    return new Promise((resolve, reject) => {
+//        try {
+//            const userToken = sessionStorage.getItem('userToken');
+//            if (!userToken) {
+//                // Session tidak ada, arahkan ke halaman login
+//                Swal.fire({
+//                    icon: 'error',
+//                    title: 'Oops...',
+//                    text: 'Please login first...!',
+//                    showConfirmButton: false,
+//                    timer: 2000,
+//                    didClose: () => {
+//                        window.location.href = "/login/index";
+//                    }
+//                });
+//                document.body.style.display = 'none'; // Sembunyikan body setelah menampilkan alert
+//                reject(); // Reject Promise
+//                return;
+//            }
+
+//            // Memeriksa apakah token telah kadaluwarsa
+//            const decodedToken = decodeToken(userToken);
+//            const expirationTime = decodedToken.exp;
+//            const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+
+//            if (currentTime > expirationTime) {
+//                sessionStorage.removeItem('userToken');
+//                // Token telah kadaluwarsa, arahkan ke halaman login
+//                Swal.fire({
+//                    icon: 'error',
+//                    title: 'Oops...',
+//                    text: 'Your session is expired...! :p',
+//                    showConfirmButton: false,
+//                    timer: 2000,
+//                    didClose: () => {
+//                        window.location.href = "/login/index";
+//                    }
+//                });
+//                document.body.style.display = 'none'; // Sembunyikan body setelah menampilkan alert
+//                reject(); // Reject Promise
+//                return;
+//            }
+
+//            document.body.style.display = 'block'; // Tampilkan body jika token dan sesi valid
+//            resolve(); // Resolve Promise
+//        } catch (error) {
+//            console.error(error);
+//            reject(error); // Reject Promise
+//        }
+//    });
+//}
+// Fungsi untuk mengurai token
+function decodeToken(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
+$(document).ready(function () {
+    checkSessionAndTokenExpiration();
+    table;
 })
 
 function ClearScreen() {
@@ -403,6 +511,8 @@ function DeleteValidation() {
                         title: 'Deleted!',
                         text: 'Your data has been deleted.',
                         icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1000,
                         didClose: () => {
                             table.ajax.reload();
                         }
@@ -419,11 +529,13 @@ function DeleteValidation() {
                 }
             })
         } else if (result.dismiss == Swal.DismissReason.cancel) {
-            deleteValidation.fire(
-                'Cancelled',
-                'Your data is safe :)',
-                'error'
-            )
+            deleteValidation.fire({
+                title: 'Cancelled',
+                text: 'Your data is safe :)',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     })
 }

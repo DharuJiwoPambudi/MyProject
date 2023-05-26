@@ -18,6 +18,7 @@ function Logout() {
 }
 
 async function login() {
+    //sessionStorage.removeItem('userToken');
     const url = "https://localhost:8001/api/Tokens";
     const data = {
         email: $('#UserName').val(),
@@ -35,17 +36,11 @@ async function login() {
         const response = await fetch(url, option);
         const json = await response.json();
         sessionStorage.setItem('userToken', json.data)
-        console.log("Token : " + sessionStorage.getItem("userToken"))
-        debugger;
-        
+        console.log("Token : " + sessionStorage.getItem("userToken"))      
         if (response.ok) {
-            debugger;
             $.post("/Login/LoginPrimer")
                 .done(function () {
                     //sessionStorage.setItem('userToken', json.data)
-                    debugger;
-
-                    debugger;
                     Swal.fire({
                         icon: 'success',
                         title: 'Greats...',
@@ -60,9 +55,7 @@ async function login() {
                             //window.location.href = "/departments/index"; // reload the page
                             location.replace("/departments/index");
                         }
-
                     })
-
                 })
         } else {
             //throw new Error(json.message);

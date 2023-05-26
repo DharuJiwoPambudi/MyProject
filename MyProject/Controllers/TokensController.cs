@@ -46,7 +46,7 @@ namespace MyProject.Controllers
                         configuration["Jwt:Issuer"],
                         configuration["Jwt:Audience"],
                         claims,
-                        expires: DateTime.UtcNow.AddSeconds(15),
+                        expires: DateTime.UtcNow.AddHours(5),
                         signingCredentials: signIn);
                     var userToken = new JwtSecurityTokenHandler().WriteToken(token);
                     return StatusCode(200, new { status = HttpStatusCode.OK, message = "Token :" + new JwtSecurityTokenHandler().WriteToken(token), Data = userToken });
