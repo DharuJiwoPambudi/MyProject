@@ -8,6 +8,10 @@
     }
 </style>*@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+<head>
+    <!-- ... -->
+    @*<link rel="stylesheet" type="text/css" href="~/css/Table_StyleSheet.css">*@
+</head>
 
 
 <!-- Content Header (Page header) -->
@@ -15,12 +19,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>DataTables</h1>
+                <h1>Department Table Data</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">DataTables</li>
+                    <li class="breadcrumb-item"><a href="~/departments/index">Home</a></li>
+                    <li class="breadcrumb-item active">Department</li>
                 </ol>
             </div>
         </div>
@@ -478,7 +482,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Table Department</h3>
+                            <h3 class="card-title">Department Table</h3>
 
                         </div>
                         <div class="button">
@@ -489,7 +493,7 @@
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Department</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Add New Department</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -501,8 +505,8 @@
                                                 <input type="text" class="form-control" id="Id" hidden>
                                             </div>
                                             <div class="form-group">
-                                                <label for="Name">Nama Department</label>
-                                                <input type="text" class="form-control" id="Name" placeholder="Masukkan Nama Department">
+                                                <label for="Name">Department Name</label>
+                                                <input type="text" class="form-control" id="Name" placeholder="Enter the Department Name">
                                             </div>
                                         </form>
                                     </div>
@@ -516,7 +520,7 @@
                         </div>
 
 
-                        <!--Modal Pop Up Update-->
+                       @* <!--Modal Pop Up Update-->
                         <div class="modal fade" id="myModalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <!-- Modal content-->
@@ -534,8 +538,8 @@
                                                 <input type="text" class="form-control" id="Id" hidden>
                                             </div>
                                             <div class="form-group">
-                                                <label for="Name">Nama Department</label>
-                                                <input type="text" class="form-control" id="Name" placeholder="Masukkan Nama Department Baru">
+                                                <label for="Name">Department Name</label>
+                                                <input type="text" class="form-control" id="Name" placeholder="Enter the Department Name">
                                             </div>
                                         </form>
                                     </div>
@@ -546,15 +550,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
-                        <!--Modal Pop Up Delete-->
+                        @*<!--Modal Pop Up Delete-->
                         <div class="modal fade" id="myModalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header bg-danger">
-                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Department</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete Department</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -568,7 +572,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
 
 
@@ -576,19 +580,22 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <!-- Button untuk memunculkan popup -->
-                            <button href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="ClearScreen();">Tambah Data Department</button>
+                            <button href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="ClearScreen();">Add New Department</button>
                             <br />
                             <br />
-                            <table id="TB_Department" class="table table-bordered table-striped">
+                            <table width="100%" id="TB_Department" class=" table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="sorting_asc_disabled sorting_desc_disabled" width="10px">No</th>
-                                        <th width="410px">Name</th>
-                                        <th width="30px">Action(s)</th>
+                                        <th class="sorting_asc_disabled sorting_desc_disabled" width="20px">No.</th>
+                                        <th>Name</th>
+                                        <th width="150px">Action(s)</th>
                                         @*<th>Engine version</th>
                                         <th>CSS grade</th>*@
                                     </tr>
                                 </thead>
+                                <tbody>
+
+                                </tbody>
                                 @*<tbody>
                                 <tr>
                                 <td>Trident</td>
@@ -1037,7 +1044,7 @@
         });
     </script>*@
 
-@*    <script>
+    @*    <script>
         $(document).ready(function () {
             // Periksa apakah session ada saat halaman dimuat
             checkSession();

@@ -5,16 +5,26 @@
 //    return !!sessionId; // Return true if session ID exists, false otherwise
 //}
 function Logout() {
-    
+
     // Clear the session variable
     //sessionStorage.removeItem("user");
     // Redirect to login page
     localStorage.removeItem('sessionId');
     //sessionStorage.removeItem('userToken')
     sessionStorage.removeItem('userToken');
-    window.location.href = "/login/index";
-    console.log("Token: " + sessionStorage.getItem('userToken'))
-    debugger;
+    Swal.fire({
+        icon: 'success',
+        title: 'Greats...',
+        text: 'thanks for stopping by!',
+        showConfirmButton: false,
+        timer: 1000,
+        didClose: () => {
+            window.location.href = "/login/index";
+        }
+    });
+
+    //console.log("Token: " + sessionStorage.getItem('userToken'))
+
 }
 
 async function login() {
@@ -36,7 +46,7 @@ async function login() {
         const response = await fetch(url, option);
         const json = await response.json();
         sessionStorage.setItem('userToken', json.data)
-        console.log("Token : " + sessionStorage.getItem("userToken"))      
+        console.log("Token : " + sessionStorage.getItem("userToken"))
         if (response.ok) {
             $.post("/Login/LoginPrimer")
                 .done(function () {

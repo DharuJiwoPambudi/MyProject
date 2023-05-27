@@ -160,8 +160,11 @@ var table = $('#TB_Department').DataTable({
         table.column(0, { order: 'applied' }).nodes().each(function (cell, i) {
             cell.innerHTML = i + 1;
         });
+        //$(row).find('td:nth-child(2), td:nth-child(3)').addClass('custom-width');
     }
-});
+})
+//.addClass('custom-table');
+
 
 function checkSessionAndTokenExpiration() {
     const userToken = sessionStorage.getItem('userToken');
@@ -439,6 +442,8 @@ function UpdateValidation() {
                         title: 'Updated!',
                         text: 'Your data has been canged.',
                         icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1000,
                         didClose: () => {
                             table.ajax.reload();
                         }
@@ -458,15 +463,18 @@ function UpdateValidation() {
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Something went wrong!',
-                    footer: '<a href="">Why do I have this issue?</a>'
+                    
+                    footer: '<a href="">Department name already exists</a>'
                 })
             })
         } else if (result.dismiss == Swal.DismissReason.cancel) {
-            updateValidation.fire(
-                'Cancelled',
-                'Your data is safe :)',
-                'error'
-            )
+            updateValidation.fire({
+                title: 'Cancelled',
+                text: 'Your data is safe :)',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
     })
 }

@@ -301,10 +301,11 @@ $(document).ready(function () {
     // Get value to department
 });
 
+//Menghitug jumlah karyawan berdasrkan departemen dan menghitung jumlah karyawan berdasarkan jenis kelamin baik untuk keseluruhan maupun perdepartemen
 function GetValueCount(callback) {
-    var countByDepartment = {};
+    var countByDepartment = {}; // Menyimpan data jumlah kaeyawan per departemen
     var countByGender = {}; // Menyimpan data jumlah karyawan per departemen berdasarkan jenis kelamin
-    var totalValueLaki = 0;
+    var totalValueLaki = 0; 
     var totalValuePerempuan = 0;
 
     $.ajax({

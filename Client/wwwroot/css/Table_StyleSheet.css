@@ -1,0 +1,57 @@
+﻿/* Tampilan default */
+table {
+    width: 100%;
+}
+
+/* Perubahan saat ukuran layar < 576px */
+@media (max-width: 890.98px) {
+    table {
+        font-size: 12px; /* Ubah ukuran font jika diperlukan */
+    }
+
+        table thead th {
+            width: 100%;
+            display: block;
+        }
+
+        table tbody,
+        table tr,
+        table td {
+            display: block;
+            width: 100%;
+            float: left;
+        }
+
+        table tbody {
+            width: auto;
+            position: relative;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+}
+/* Perubahan saat ukuran layar < 576px */
+/*@media (min-width: 900.98px) {
+    table {
+        font-size: 12px;*/ /* Ubah ukuran font jika diperlukan */
+    /*}
+
+        table thead th {
+            width: 100%;
+            display: block;
+        }
+
+        table tbody,
+        table tr,
+        table td {
+            display: block;
+            width: 100%;
+            float: left;
+        }
+
+        table tbody {
+            width: auto;
+            position: relative;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+}*/
